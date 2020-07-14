@@ -165,7 +165,7 @@ PgSQL 접속 해제
 
 <br>
 
-### DB CREATE & DROP
+### CREATE & DROP DB
 
 #### CREATE
 
@@ -345,27 +345,13 @@ REVOKE 명령을 사용하여 사용자의 권한 회수
 
 <br>
 
-## PostgreSQL Data type
-
-* 숫자형
-  * INT(Small, Big), REAL, Double Percisionn Numeric
-* 문자형
-  * CHAR(사용X, 고정길이), VARCHAR, TEXT, AND ETC
-
-* 날짜형
-  * DATA, TIME(날짜), TIMESTAMP(날짜와 시간) AND ETC.
-* 기타형
-  * BOOLEAN, SERIAL(Small, Big)<u>채번?</u> , JSON, JSONB, ABD ETC.
-
-<br>
-
 ### View DB
 
 #### \list
 
 시스템에 등록된 데이터베이스 보기
 
-* Systax
+* PSQL Console
 
   ```sql
   SQL> \list
@@ -391,7 +377,7 @@ REVOKE 명령을 사용하여 사용자의 권한 회수
 
 psql 모드에서 데이터베이스에 접속하기
 
-* Systax
+* PSQL Console/
 
   ```sql
   SQL> \c database_name
@@ -403,6 +389,22 @@ psql 모드에서 데이터베이스에 접속하기
 
 * 테이블은 관계형 데이터베이스의 기본적인 데이터 저장 단위
 * 사용자가 접근 가능한 모든 데이터를 보유하며, **행(Row)과 열(Column)**로 구성
+
+<br>
+
+### PostgreSQL Data type
+
+* 숫자형
+  * INT(Small, Big), REAL, Double Percisionn Numeric
+* 문자형
+  * CHAR(사용X, 고정길이), **VARCHAR(자주 사용)**, TEXT, AND ETC
+
+* 날짜형
+  * DATA, TIME(날짜), TIMESTAMP(날짜와 시간) AND ETC.
+* 기타형
+  * BOOLEAN, SERIAL(Small, Big)<u>채번?</u> , JSON, JSONB, ABD ETC.
+
+<br>
 
 ### CREATE TABLE
 
@@ -460,7 +462,7 @@ CREATE TABLE 명령어를 통해 테이블을 생성한다.
 
 시스템에 등록된 테이블의 목록 보기
 
-* Syntax
+* PSQL Console
 
   ```sql
   SQL> \dt
@@ -486,7 +488,9 @@ CREATE TABLE 명령어를 통해 테이블을 생성한다.
 
 ### View Table sturucture
 
-* Syntax
+시스템에 등록된 테이블의 구조 보기
+
+* PSQL Console
 
   ```sql
   SQL> \d table_name
@@ -510,7 +514,9 @@ CREATE TABLE 명령어를 통해 테이블을 생성한다.
 
     데이터베이스의 시스템 카탈로그
 
-### 테이블 수정하기
+### ALTER TABLE
+
+테이블 수정하기
 
 * Syntax
 
@@ -518,17 +524,107 @@ CREATE TABLE 명령어를 통해 테이블을 생성한다.
   ALTER TABLE [IF EXISTS] table_name (<column-definition>);
   ```
 
-### 테이블 칼럼 추가하기
+  * table_name
+
+    변경할 테이블 이름 입력
+
+  * IF EXISTS
+
+    기존에 동일한 이름의 테이블 이름이 없으면 변경하지 않음.
+
+  * coulum-definition
+
+    테이블을 구성하는 컬럼 이름과 컬럼 도메인 정보 등을 지정
+
+  * [Whitepaper](https://www.postgresql.org/docs/current/static/sql
+    altertable.html[)
+
+#### ADD COLUMN
+
+테이블 칼럼 추가하기
 
 * Syntax
 
   ```sql
   ADD COLUMN <column_name> <column_definition> [column_constraint]
   ```
+  
+  * column_name
+  
+    추가할 컬림 이름 지정
+  
+  * column_definition
+  
+    컬럼의 도메인 등을 지정
+  
+  * column_constraint
+  
+    컬럼의 제약조건 등을 지정
+  
+* ex
 
-### 테이블 칼럼 수정하기
+  ```sql
+  ALTER TABLE student ADD COLUMN gender VARCHAR(1);
+  ```
 
-### 테이블 칼럼 삭제하기
+  
+
+#### RENAME COLUMN
+
+테이블 컬럼 이름 수정하기
+
+* Syntax
+
+  ```sql
+  RENAME COLUMN <old_name> TO <new_name>;
+  ```
+
+  * old_name
+
+    변경해야 할 컬럼 이름 지정
+
+  * new_name
+
+    새롭게 변경하는 컬럼 이름 지정
+
+* ex
+
+  ```sql
+  ALTER TABLE student RENAME kname TO name;
+  ```
+
+#### ALTER COLUMN
+
+테이블 컬럼 수정하기
+
+* Syntax
+
+  ```sql
+  ALTER COLUMN <column_name>
+  	PGSQL_COMMAND {<column_definition>, [column_constraint]}
+  ```
+
+  * column_name
+
+    수정할 컬럼 이름 지정
+
+  * column_definition
+
+    컬럼의 도메인 등을 지정
+
+  * column_constraint
+
+    컬럼의 제약조건 등을 지정
+
+    * 선택이 아니고 필수, **선택하지 않으면 모든 칼럼이 수정됨.**
+
+* ex
+
+  ```sql
+  ALTER TABLE student ALTER COLUMN gender TYPE varchar(2);
+  ```
+
+### DROP COLUMN
 
 * Syntax 
 
@@ -536,11 +632,21 @@ CREATE TABLE 명령어를 통해 테이블을 생성한다.
   DROP COLUMN <column_name>
   ```
 
-* 
+  * column_name
+
+    삭제할 컬럼 이름 지정
+
+* ex
+
+  ```sql
+  ALTER TABLE student DROP COLUMN gender;
+  ```
+
+  
 
 ## 데이터 (등록, 조회, 수정, 삭제)
 
-### 데이터 삽입
+### INSERT DATA
 
 * Syntax
 
@@ -559,35 +665,83 @@ CREATE TABLE 명령어를 통해 테이블을 생성한다.
 
   * expression
 
-    컬럼에 입력할 값을 나열하며
+    컬럼에 입력할 값을 나열하며, 기본 값을 사용하고 싶을 때에는 DEFAULT 키워드 사용
+    
+  * [Whitepaper](https://www.postgresql.org/docs/9.6/static/sql
+    insert.html[)
+  
+* ex
 
-### 데이터 수정
+  ```sql
+  INSERT INTO STUDENT(no, name, birthday)
+  VALUES (20110101, ‘홍길동 ’, ‘1990 03 01’);
+  INSERT INTO STUDENT(no, name, birthday)
+  VALUES (20110201, ‘일지매’, ‘1991 02 28’);
+  INSERT INTO STUDENT(no, name, birthday)
+  VALUES (20110301, ‘황진이’, ‘1991 02 28’);
+  OR
+  INSERT INTO STUDENT
+  VALUES (20110101, ‘홍길동’, ‘1990 03 01’);
+  INSERT INTO STUDENT 
+  VALUES (20110201, ’일지매’, ‘1991 02 28’);
+  INSERT INTO STUDENT
+  VALUES (20110301, ‘황진이’, ‘1991 02 28’);
+  ```
+
+  
+
+### UPDATE DATA
 
 * Syntax
 
   ```sql
   UPDATE <table_name> SET column_name={expression|DEFAULT}
-  		[, columnmn_name]
-  ```
+  					[, columnmn_name={expression|DEFAULT}] ...
+  [WHERE <query_condition>]
+```
+  
+  * **WHERE  필수**
+  
+  * table_name
+  
+    갱신을 수행할 대상 테이블을 지정
+  
+  * column_name={expresson|DEFAULT}
+  
+    해당 컬럼의 값을 표현식으로 변경하거나 기본 값으로 변경
+  
+  * query_condition
+  
+    변경하고자 하는 테이블 내의 대상을 지정하기 위해 사용하므로 매우 중요
+  
+  * [Whitepaper](https://www.postgresql.org/docs/9.6/static/sql
+    update.html[)
 
-  * WHERE  필수
-
-### 데이터 삭제
+### DELETE DATA
 
 * Syntax
 
   ```sql
-  DELETe FROM <table_name> [WHERE <query_condition>];
+  DELETE FROM <table_name> [WHERE <query_condition>];
   ```
 
   * WHERE 필수
+  * table_name
+    테이블 내용을 삭제할 대상 테이블 이름을 입력
+  * query_condition
+    이 조건을 생략하는 테이블의 전체 내용을 제거
+    삭제하고자 하는 테이블 내의 대상을 지정하기 위해 사용하므로 매우 중요
+  * [Whitepaper](https://www.postgresql.org/docs/9.6/static/sql
+    delete.html[)
 
 ### 데이터 조회
 
 * Syntax
 
   ```sql
-  SELECT
+  SELECT target_column FROM table_name
+  [WHERE <query_condition>]
+  [ORDER BY <column_name>];
   ```
 
 ## Using JDBC Connector
