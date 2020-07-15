@@ -1,0 +1,13 @@
+#include <stdio.h>
+
+int main(void)
+{
+    FILE *fp1 ,*fp2;
+    char file1[10], file2[10];
+
+    printf("input first file name : ");
+    scanf("%s", file1);
+    printf("input second file name : ");
+    scanf("%s", file2);
+    
+}

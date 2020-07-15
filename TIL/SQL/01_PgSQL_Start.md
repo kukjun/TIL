@@ -674,17 +674,17 @@ CREATE TABLE 명령어를 통해 테이블을 생성한다.
 
   ```sql
   INSERT INTO STUDENT(no, name, birthday)
-  VALUES (20110101, ‘홍길동 ’, ‘1990 03 01’);
+  VALUES (20110101, ‘홍길동’, ‘1990-03-01’);
   INSERT INTO STUDENT(no, name, birthday)
-  VALUES (20110201, ‘일지매’, ‘1991 02 28’);
+  VALUES (20110201, ‘일지매’, ‘199102-28’);
   INSERT INTO STUDENT(no, name, birthday)
   VALUES (20110301, ‘황진이’, ‘1991 02 28’);
   OR
-  INSERT INTO STUDENT
-  VALUES (20110101, ‘홍길동’, ‘1990 03 01’);
-  INSERT INTO STUDENT 
+  INSERT INTO student1
+  VALUES (20110101, ‘홍길동’, ‘1990-03-01’);
+  INSERT INTO student1 
   VALUES (20110201, ’일지매’, ‘1991 02 28’);
-  INSERT INTO STUDENT
+  INSERT INTO student1
   VALUES (20110301, ‘황진이’, ‘1991 02 28’);
   ```
 
@@ -698,25 +698,32 @@ CREATE TABLE 명령어를 통해 테이블을 생성한다.
   UPDATE <table_name> SET column_name={expression|DEFAULT}
   					[, columnmn_name={expression|DEFAULT}] ...
   [WHERE <query_condition>]
-```
+  ```
   
   * **WHERE  필수**
   
-  * table_name
+    * table_name
+    
+      갱신을 수행할 대상 테이블을 지정
+    
+    * column_name={expresson|DEFAULT}
+    
+      해당 컬럼의 값을 표현식으로 변경하거나 기본 값으로 변경
+    
+    * query_condition
+    
+      변경하고자 하는 테이블 내의 대상을 지정하기 위해 사용하므로 매우 중요
+    
+    * [Whitepaper](https://www.postgresql.org/docs/9.6/static/sql
+      update.html)
   
-    갱신을 수행할 대상 테이블을 지정
-  
-  * column_name={expresson|DEFAULT}
-  
-    해당 컬럼의 값을 표현식으로 변경하거나 기본 값으로 변경
-  
-  * query_condition
-  
-    변경하고자 하는 테이블 내의 대상을 지정하기 위해 사용하므로 매우 중요
-  
-  * [Whitepaper](https://www.postgresql.org/docs/9.6/static/sql
-    update.html[)
+* ex
 
+  ```sql
+  UPDATE 교수 SET PNAME='안기홍' where PNAME='안기흥';
+  ```
+
+  
 ### DELETE DATA
 
 * Syntax
