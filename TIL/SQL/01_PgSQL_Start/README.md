@@ -226,6 +226,14 @@ PgSQL 접속 해제
 
 사용자를 생성하고 제거할 수 있다.
 
+#### 사용자 확인
+
+* Syntax
+
+  ```sql
+  \du
+  ```
+
 #### CREATE
 
 CREATE USER 명령을 사용하여 사용자를 생성
@@ -345,6 +353,19 @@ REVOKE 명령을 사용하여 사용자의 권한 회수
 
 <br>
 
+### View User
+
+#### \du
+
+* PSQL Console
+
+  ```sql
+  SQL> \du
+  ```
+
+  * alias로 간추린 명령어.
+  * \du+ 로 상세조회 가능
+
 ### View DB
 
 #### \list
@@ -457,6 +478,34 @@ CREATE TABLE 명령어를 통해 테이블을 생성한다.
   birthday DATE
   );
   ```
+
+#### FOREIGN KEY
+
+* Syntax
+
+  ```sql
+  FOREIGN KEY <Table Constraint> ::=
+  
+  [ CONSTRAINT <Constraint name> ]
+  FOREIGN KEY (referencing <Column name> [ {,<Column name>}... ])
+  	REFERENCES referenced <Table name>
+  		[ (referenced <Column name> [ {,<Column name>}... ]) ]
+  [ <constraint attributes> ]
+  ```
+
+* ex
+
+  ```sql
+  CREATE TABLE LECTURE(
+  	LPCODE VARCHAR(4) NOT NULL,
+      LCCODE VARCHAR(4) NOT NULL,
+      PRIMARY KEY (LPCODE, LCCODE),
+      CONSTRAINT lpcode_fk FOREIGN KEY(LPCODE) REFERENCES professor(PCODE),
+      CONSTRAINT lccode_fk FOREIGN KEY(LCCODE) REFERENCES course(CCODE)
+  );
+  ```
+
+  
 
 ### View Table list
 
@@ -644,7 +693,7 @@ CREATE TABLE 명령어를 통해 테이블을 생성한다.
 
   
 
-## 데이터 (등록, 조회, 수정, 삭제)
+## DATA
 
 ### INSERT DATA
 
@@ -719,10 +768,14 @@ CREATE TABLE 명령어를 통해 테이블을 생성한다.
   
 * ex
 
+  황진이의 학번을 20110301로 변경
+  
   ```sql
-  UPDATE 교수 SET PNAME='안기홍' where PNAME='안기흥';
+UPDATE student SET no='20110301'
+  WHERE name='황진이';
+  
   ```
-
+  
   
 ### DELETE DATA
 
@@ -740,8 +793,16 @@ CREATE TABLE 명령어를 통해 테이블을 생성한다.
     삭제하고자 하는 테이블 내의 대상을 지정하기 위해 사용하므로 매우 중요
   * [Whitepaper](https://www.postgresql.org/docs/9.6/static/sql
     delete.html[)
+  
+*  ex
 
-### 데이터 조회
+  이국준 data를 삭제함
+
+  ```sql
+  DELETE FROM student WHERE name='이국준';
+  ```
+
+### View DATA
 
 * Syntax
 
@@ -749,6 +810,26 @@ CREATE TABLE 명령어를 통해 테이블을 생성한다.
   SELECT target_column FROM table_name
   [WHERE <query_condition>]
   [ORDER BY <column_name>];
+  ```
+  
+  * target_column
+  
+     조회할 컬럼 리스트
+  
+  * table_name
+  
+    조회할 대상 테이블
+  
+  * query_condition
+  
+    조회하고자 하는 테이블 내의 대상을 지정
+  
+* ex
+
+  student TABLE 전체 대상 조회
+
+  ```sql
+  SELECT * FROM student 
   ```
 
 ## Using JDBC Connector
