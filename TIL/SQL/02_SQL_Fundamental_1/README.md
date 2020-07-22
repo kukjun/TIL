@@ -263,43 +263,20 @@ Sample Data로 테이블 모델 구현
 
   
 
-#### 데이터
+#### 데이터 수정하기
+
+* Syntax
+
+  ```sql
+  UPDATE <table_name> SET column_name={expression|DEFALUT}
+  				[. column_name={expression|DEFAULT}] ...
+  [WHERE <query_condition>]
+  ```
+
+  
 
 ```sql
 UPDATE 교수 SET PNAME='안기홍' where PNAME='안기흥';
-```
-
-```sql
-UPDATE advise SET APCODE='P003' where APCODE='P004';
-```
-
-```sql
-INSERT INTO PROFESSOR (PCODE,PNAME,PDEPT,PPHONE)
-VALUES ('P001','안기흥','컴퓨터공학과', '821-1101');
-INSERT INTO PROFESSOR VALUES ('P002','김정호','컴퓨터공학과','821-1102');
-INSERT INTO PROFESSOR VALUES ('P003','이창석','전파공학과','821-1201');
-INSERT INTO PROFESSOR VALUES ('P004','박현주','전파공학과','821-1202');
-INSERT INTO PROFESSOR VALUES ('P005','김응규','정보통신공학과','821-1301');
-INSERT INTO PROFESSOR VALUES ('P006','김은기','정보통신공학과','821-1302');
-```
-
-```sql
-SQL> \COPY COURSE FROM 'c:/sql/sample_data/course.csv'
-( FORMAT CSV, DELIMITER(',') );
-```
-
-
-
-LIKE
-
-* LIKE Operator
-  *  % 무한
-  * _ 한글자만
-
-```sql
-SELECT *
-FROM PROFESSOR
-WHERE PNAME LIKE '김%';
 ```
 
 
