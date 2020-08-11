@@ -725,7 +725,7 @@ CREATE TABLE 명령어를 통해 테이블을 생성한다.
   INSERT INTO STUDENT(no, name, birthday)
   VALUES (20110101, ‘홍길동’, ‘1990-03-01’);
   INSERT INTO STUDENT(no, name, birthday)
-  VALUES (20110201, ‘일지매’, ‘199102-28’);
+  VALUES (20110201, ‘일지매’, ‘1991-02-28’);
   INSERT INTO STUDENT(no, name, birthday)
   VALUES (20110301, ‘황진이’, ‘1991 02 28’);
   OR
@@ -745,7 +745,7 @@ CREATE TABLE 명령어를 통해 테이블을 생성한다.
 
   ```sql
   UPDATE <table_name> SET column_name={expression|DEFAULT}
-  					[, columnmn_name={expression|DEFAULT}] ...
+  					[, column_name={expression|DEFAULT}] ...
   [WHERE <query_condition>]
   ```
   
@@ -812,17 +812,25 @@ UPDATE student SET no='20110301'
   [ORDER BY <column_name>];
   ```
   
-  * target_column
+  * `target_column`
   
      조회할 컬럼 리스트
   
-  * table_name
+  * `table_name`
   
     조회할 대상 테이블
   
-  * query_condition
+  * `query_condition`
   
     조회하고자 하는 테이블 내의 대상을 지정
+    
+  * `ORDER BY`
+  
+     column_name 기준으로 내림차순 정렬
+  
+     * `DESC`
+     
+       오름차순으로 
   
 * ex
 
