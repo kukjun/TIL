@@ -416,14 +416,14 @@ psql 모드에서 데이터베이스에 접속하기
 ### PostgreSQL Data type
 
 * 숫자형
-  * INT(Small, Big), REAL, Double Percisionn Numeric
+  * INT(Small, Big), REAL, Double Precision,  Numeric, Decimal, BIT, AND ETC
 * 문자형
   * CHAR(사용X, 고정길이), **VARCHAR(자주 사용)**, TEXT, AND ETC
 
 * 날짜형
-  * DATA, TIME(날짜), TIMESTAMP(날짜와 시간) AND ETC.
+  * DATA, TIME(날짜), TIMESTAMP(날짜와 시간), AND ETC.
 * 기타형
-  * BOOLEAN, SERIAL(Small, Big)<u>채번?</u> , JSON, JSONB, ABD ETC.
+  * BOOLEAN, SERIAL(Small, Big), JSON, JSONB, AND ETC.
 
 <br>
 
@@ -443,15 +443,15 @@ CREATE TABLE 명령어를 통해 테이블을 생성한다.
 
       기존에 동일한 이름의 테이블 이름이 있으면 생성하지 않음
 
-  * table_name
+  * `table_name`
 
     테이블 식별자
 
-  * column-definition
+  * `column-definition`
 
     테이블을 구성하는 컬럼 이름과 컬럼 도메인 정보 등을 지정
     
-    * Syntax \<cilumn-definition\>
+    * Syntax \<column-definition\>
     
       ```sql
       <colnmn_name> <datatype>
@@ -704,15 +704,15 @@ CREATE TABLE 명령어를 통해 테이블을 생성한다.
   VALUES ({expression|DEFAULT}, ...) [, (...), ...];
   ```
 
-  * table_name
+  * `table_name`
 
     데이터를 삽입할 테이블을 지정
 
-  * VALUES
+  * `VALUES`
 
     삽입할 데이터 값
 
-  * expression
+  * `expression`
 
     컬럼에 입력할 값을 나열하며, 기본 값을 사용하고 싶을 때에는 DEFAULT 키워드 사용
     
@@ -785,10 +785,10 @@ UPDATE student SET no='20110301'
   DELETE FROM <table_name> [WHERE <query_condition>];
   ```
 
-  * WHERE 필수
-  * table_name
+  * **WHERE 필수**
+  * `table_name`
     테이블 내용을 삭제할 대상 테이블 이름을 입력
-  * query_condition
+  * `query_condition`
     이 조건을 생략하는 테이블의 전체 내용을 제거
     삭제하고자 하는 테이블 내의 대상을 지정하기 위해 사용하므로 매우 중요
   * [Whitepaper](https://www.postgresql.org/docs/9.6/static/sql

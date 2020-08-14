@@ -122,7 +122,72 @@ Vendor-specific database protocol, Oracle Thin Driver
 
 ## JDBC Programming
 
+### Process
 
+![image-20200813130036704](C:\Users\klop0\AppData\Roaming\Typora\typora-user-images\image-20200813130036704.png)
+
+<br>
+
+#### Database Connection
+
+```java
+String URL = "jdbc:postgresql://localhost:5432/dbname";
+Connection conn = DriverManager.getConnection(URL, "username", "password");
+```
+
+<br>
+
+#### Create a Statement Object for SQL
+
+```java
+Statement stmt = conn.createStatement();
+```
+
+<br>
+
+#### SQL Statement Execution
+
+```java
+String SQL = "select * from student;";
+ResultSet result = stmt.executeQuery(SQL);
+```
+
+<br>
+
+#### ResultSet processing
+
+```java
+while (result.next()) {
+    String col1 = result.getString(1);
+    String col2 = result.getString(2);
+    int col3 = result.getInt(3);
+}
+```
+
+<br>
+
+#### Release JDBC object
+
+```java
+result.close(); stmt.close(); conn.close();
+```
+
+#### Validation results
+
+<br><br>
+
+### Objects used in JDBC Programming
+
+#### DriverManager Class
+
+> 데이터 원본에 JDBC 드라이버를 통하여 커넥션을 만드는 역할
+
+일반적으로 드라이버 클래스들은 로드될 때 자신의 인스턴스를 생성하고, 자동적으로  DriverManager 클래스 메서드를 호출하여 그 인스턴스를 등록
+
+* 모든 메소드는 Static
+  * 반드시 객체를 생성시킬 필요가 없음
+* Connection 인터페이서의 구현 객체를 생성
+  * getConnection() 메소드 사용
 
 ## Connection Test
 

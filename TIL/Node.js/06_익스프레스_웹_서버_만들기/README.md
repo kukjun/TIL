@@ -812,3 +812,26 @@ style이나 sript 태그로 CSS 또는 자바스크립트 코드를 작성하려
 #### 변수
 
 HTML과 다르게 자바스크립트 변수를 템플릿에 렌더링할 수 있다. res.render 호출 시 보내는 변수를 Pug가 처리해준다. routes/index.js의 코드를 보면 다음 부분이 있다.
+
+### EJS
+
+### 에러 처리 미들웨어
+
+#### 에러 핸들러
+
+* app.js
+
+  ```javascript
+  ...
+  // 에러 핸들러
+  app.use(function(err, req, next) {
+      res.locals.message = err.message;
+      res.locals.error = req.app.get('env') === 'development' ? err : {};
+      
+      res.status(err.status || 500);
+      res.render('error');
+  });
+  ...
+  ```
+
+  에러 처리 미들웨어는 error라는 템플릿 파일을 렌더링한다. 헨더링 시 res.locals.message와 res.locals.error에 넣어준 값을 함께 렌더링한다. res.render에 변수를 대입하는 것 외에도 이렇게 res.locals 속성에 값을 대입하여 템플릿 엔진에 변수를 주입할 수 있습니다.

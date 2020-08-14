@@ -5,6 +5,8 @@
 #include <sys/stat.h> // 디렉토리를 만들기 위해 필요한 헤더파일
 #include <direct.h> // 디렉토리 이동을 위해 필요한 헤더파일
 #define SIZE 20
+#define MAX_USER_SIZE 100
+#define MAX_WORDBOOK_SIZE 500
 
 char current_user[SIZE] = { 0 };
 
@@ -71,7 +73,7 @@ int login_administer(void)
 int create_user(void)
 {
     USER user1 = { 0 };
-    USER check_user[100] = { 0 };
+    USER check_user[MAX_USER_SIZE] = { 0 };
     int max_count, count = 0;
     char password_check[SIZE];
     FILE *fp;
@@ -230,7 +232,7 @@ int login_user(void)
 {
     USER input_user = { 0 };
     int passcount = 0;
-    USER check_user[100] = { 0 };
+    USER check_user[MAX_USER_SIZE] = { 0 };
     int max_count, count = 0;
     FILE *fp;
 
@@ -271,7 +273,7 @@ int login_user(void)
 int input_wordbook(void) {
     WORDBOOK input = {0};
     char user_id[SIZE] = {0};
-    WORDBOOK check_wordbook[100] = {0};
+    WORDBOOK check_wordbook[MAX_WORDBOOK_SIZE] = {0};
     char confirm;
     int max_count, count = 0;
     FILE *fp;
@@ -458,7 +460,7 @@ int practice_wordbook(void)
 {
     char user_id[SIZE] = { 0 };
     char practice_mean[SIZE] = {0};
-    WORDBOOK check_wordbook[100] = {0};
+    WORDBOOK check_wordbook[MAX_WORDBOOK_SIZE] = {0};
     int max_count, count = 0;
     char confirm;
     int all_count=0, success_count=0;
