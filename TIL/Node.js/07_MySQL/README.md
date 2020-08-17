@@ -476,7 +476,7 @@ Sequelize를 사용하면 자바 스크립트 구문을 알아서 SQL로 바꾸�
 
    * `models/index.js`
 
-     ```js
+     ```javascript
      const path = require('path');
      const Sequelize = require('sequelize');
      
@@ -555,11 +555,42 @@ MySQL에서 정의한 테이블을 Sequelize에서도 정의해야 한다. MySQL
      };
      ```
 
+     sequelize는 알아서 id를 기본 키로 연결하므로 id칼럼을 따로 적어줄 필요가 없다.
+
+     sequelize의 자료형은 MySQL의 자료형과 조금 다르다.
+
+     * VARCHAR -> STRING
+     * INT -> INERGER
+     * TINYINT -> BOOLEAN
+     * DATETIME -> DATE
+     * INTEGER.UNSIGNED.ZEROFILL
+     * NOT NULL -> allowNull
+     * DEFAULT -> defaultValue
+
+     define 메서드의 세 번째 인자는 테이블 옵션이다. timestamps 속성의 값이 false로 되어 있다.
+
+     * timestamps 속성이 true면 sequelize는 createdAt와 updatedAt 컬럼을 추가한다. 그리고 로우가 생성될 때와 수정될 때의 시간이 자동으로 입력된다.
+
+     * **기타 테이블 옵션**
+
+       * paranoid
+         : timestamps가 true여야 설정 가능. paranoid를 true로 설정하면 deletedAt라는 컬럼이 추가되고, 로우를 삭제하는 sequelize 명령을 내렸을때 삭제하는 대신 deletedAt에 제거된 날짜를 입력한다. 로우를 조회하는 명령을 내렸을때, deletedAt가 null이면 로우가 삭제되지 않았음을 의미한다.
+
+         백업 데이터베이스가 없을 경우 임의로 삭제표시를 남길때 사용
+
+       * underscored
+
+         createdAt, updatedAt, deletedAt 컬럼과 시퀄라이즈가 자동으로 생성해주는 관계 컬럼들으 ㅣ이름을 스네이크 케이스 형식으로 바꾸어준다.
+
+       * tableName
+
+         테이블 이름을 다른 것으로 정하고 싶을 때 사용한다. 시퀄라이즈는 자동으로 define 메서드의 첫 번째 인자를 복수형으로 만들어 테이블 이름으로 사용한다.
+
 2. Comment 모델을 만든다.
 
    * `models/comments`
 
-     ```js
+     ```javascript
      module.exports = (sequelize, DataTypes) => {
        return sequelize.define('comment', {
          comment: {
@@ -576,3 +607,101 @@ MySQL에서 정의한 테이블을 Sequelize에서도 정의해야 한다. MySQL
        });
      };
      ```
+     
+     user 테이블과 연결된 commenter 컬럼이 없다. 이는 모델을 정의할 때 넣어주지 않아도 된다.
+
+3. 모델을 생성한 다음 `models/index.js`와 연결한다.
+
+   * models/index.js
+
+     ```js
+     ...
+     db.sequelize = sequelize;
+     db.Sequelize = Sequelize;
+     
+     db.User = require('./user')(sequelize, Sequelize);
+     db.Comment = require('./comment')(sequelize, Sequelize);
+     
+     module.exports = db;
+     ```
+
+     db라는 객체에 User와 Comment 모델을 담아두었다.
+
+4. config 폴더 안의 config.json 수정
+
+   * `config/config.json`
+
+     ```json
+     {
+       "development": {
+         "username": "root",
+         "password": "[@leekukchun0519]",
+         "database": "node.js",
+         "host": "127.0.0.1",
+         "dialect": "mysql",
+         "operatorsAliases": false
+       },
+         ...
+     }
+     ```
+
+     이 설정은 process.env.NODE_ENV가 development일 때 적용된다.
+
+     배포시 process.env.NODE_ENV를 production으로 설정 해둔다. 즉, 배포 환경을 위해 데이터베이스를 설정할 때에는 config.json의 production 속성을 수정하면 된다. 테스트시에도 마찬가지이다.
+
+<br>
+
+### 관계 정의하기
+
+users 테이블과 comments 테이블 간의 관계를 정의 해본다.
+
+#### 1:N
+
+> 한 사용자는 덧글 여러개를 달 수 있지만 덧글 하나에 사용자가 여러명일 수는 없다.
+
+시퀼라이즈에서는 1:N 관계를 hasMany라는 메서드로 표현한다.
+
+* hasMany를 사용해서 users 테이블의 로우 하나를 불러올 때 연결된 comments 테이블의 로우들도 같이 불러올 수 있다.
+* belongsTo를 사용해 반대로 comments 테이블의 로우를 불러올 때 연결된 users 테이블의 로우를 가져온다.
+
+`modeles/index.js`에서 모델들을 연결해준 곳 밑에 추가로 넣어준다.
+
+* `models/index.js`
+
+  ```javascript
+  ...
+  db.sequelize = sequelize;
+  db.Sequelize = Sequelize;
+  
+  db.User = require('./user')(sequelize, Sequelize);
+  db.Comment = require('./comment')(sequelize, Sequelize);
+  
+  db.User.hasMany(db.Comment, { foreignKey: 'commenter', sourceKey: 'id'});
+  db.Comment.belongsTo(db.User, { foreignKey: 'commenter', targetKey: 'id'});
+  
+  module.exports = db;
+  ```
+
+`npm start`명령 실행
+
+==안됨==
+
+#### 1:1
+
+> 사용자  한 명은 자신의 정보를 담고 있는 테이블과만 관계가 있다.
+
+1대1 관계에서는 hasOne 메서드를 사용한다.
+
+* hasOne 메서드를 통해서 연결된 테이블의 로우를 불러올 수 있다.
+* delongsTo를 사용해도 동일하다.
+
+#### N:M
+
+> 게시글 테이블과 해시태그(#) 테이블 관계를 에로 들 수 있다.
+
+시퀼라이즈에서 N:M 관계를 표현하기 위해 belongsToMany 메서드가 있다.
+
+### 쿼리 알아보기
+
+### 쿼리 수행하기
+
