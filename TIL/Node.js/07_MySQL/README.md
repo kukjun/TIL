@@ -428,7 +428,7 @@ Delete는 데이터베이스에 있는 데이터를 삭제하는 작업이다.
   ```
 
 
-## 7. Sequelize 사용하기
+## 7.6 Sequelize 사용하기
 
 MySQL 작업을 쉽게 할 수 있도록 도와주는 라이브러리
 
@@ -695,13 +695,69 @@ users 테이블과 comments 테이블 간의 관계를 정의 해본다.
 * hasOne 메서드를 통해서 연결된 테이블의 로우를 불러올 수 있다.
 * delongsTo를 사용해도 동일하다.
 
+사용자 정보를 담고 있는 가상의 Info 모델이 있다고 하면,
+
+`db.User.hasOne(db.Info, { foreignKey: 'user_id', sourceKey: 'id' });`
+`db.Info.belongsTo(db.User, { foreignKey: 'user_id', targetKey: 'id' });`
+
 #### N:M
 
 > 게시글 테이블과 해시태그(#) 테이블 관계를 에로 들 수 있다.
 
 시퀼라이즈에서 N:M 관계를 표현하기 위해 belongsToMany 메서드가 있다.
 
+게시글 정보를 담고 있는 가상의 Post 모델과 해시태그 정보를 담고 있는 가상의 Hashtag 모델이 있다고 하면,
+
+`db.Post.belongsToMany(db.Hashtag, { through: 'PostHashtag' });`
+`db.Hashtag.belongsToMany(db.Post, { through: 'PostHashtag' });`
+
+<br>
+
 ### 쿼리 알아보기
+
+* 로우를 생성하는 쿼리
+
+  ```mysql
+  INSERT INTO nodejs.users (name, age, married, comment) VALUES ('zero', 24, 0,'자기소개1');
+  ```
+
+  ```javascript
+  const { User } = require('../models')
+  User.create({
+    name:'zero',
+    age: 24,
+    married: false,
+    comment:'자기소개1',
+  });
+  ```
+
+* 로우를 조회하는 쿼리
+
+  ```mysql
+  SELECT * FROM nodejs.users;
+  ```
+
+  ```javascript
+  User.findAll({});
+  ```
+
+  * user 테이블의 모든 데이터를 조회
+
+  ```mysql
+  SELECT * FROM nodejs.users LIMIT 1;
+  ```
+
+  ```javascript
+  User.find({});
+  ```
+
+  * user 테이블의 데이터를 하나만 조회
+
+  ```mysql
+  SELECT * 
+  ```
+
+  
 
 ### 쿼리 수행하기
 
