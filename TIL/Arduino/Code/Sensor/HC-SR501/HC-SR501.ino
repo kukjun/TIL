@@ -7,6 +7,6 @@ void setup() {
 
 void loop() {
   delay(1000);
-  int sensor = analogRead(people);
+  int sensor = anRead(people);
   Serial.println(sensor);
 }

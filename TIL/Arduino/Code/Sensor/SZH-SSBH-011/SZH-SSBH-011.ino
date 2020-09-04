@@ -1,12 +1,12 @@
-int sound = A0;
+int light = A0;
 
 void setup() {
-  pinMode(sound, INPUT);
+  pinMode(light, INPUT);
   Serial.begin(9600);
 }
 
 void loop() {
   delay(1000);
-  int sensor = analogRead(sound);
+  int sensor = analogRead(light);
   Serial.println(sensor);
 }
