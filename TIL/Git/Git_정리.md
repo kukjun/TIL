@@ -88,11 +88,81 @@ Enter passphrase (empty for no passphrase): // passphrase 입력 10~30 문자
 
 이러한 과정을 거치면 Private  Key와 Public Key가 만들어진다.
 
-### git init
+## Git 기초 명령어
 
-새로운 local repository 생성하는 명령어
+* `git init`
 
-```bash
-git init
-```
+  새로운 local repository 생성하는 명령어
 
+  ```bash
+  git init
+  ```
+
+* `git add`
+
+  스테이징 에어리어에 추가하는 명령어
+
+  ```bash
+  git add <file path>
+  ```
+
+* `git commit`
+
+  스테이징 에어리어에 추가한 내용의 순간을 저장하는 명령어
+
+  ```bash
+  git commit
+  ```
+
+* `git push`
+
+  로컬 레파지토리의 commit 순간을 리모트 레파지토리 업로드하는 명령어
+
+  ```bash
+  git push 
+  ```
+
+* `git checkout`
+
+  이전 commit 상태로 돌아갈 수 있는 명령어
+
+* `git discard`
+
+  commit 한 순간으로 이동함
+
+* `git revert`
+
+  버전을 유지하면서 이전 Commit 상태로 돌아가는 명령
+
+  **이전 버전과 새로운 버전 유지**
+
+* `git reset`
+
+  선택한 버전의 상태로 돌아가는 것
+
+  **이전 버전과 새로운 버전 삭제**
+
+  * Hard Mode
+
+    
+
+  * Mixed Mode
+  * Soft Mode
+
+#### Branch
+
+독립적으로 어떤 작업을 진행하기 위한 형태
+
+* `git branch <branch_name`>
+
+  브런치를 만들어 따로 작업할 수 있는 공간을 만든다.
+
+  ```bash
+  git branch 
+  ```
+
+  
+
+* `git checkout <branch_name>`
+
+  브런치를 변경해 다른 브런치 환경에서 작업을 수행한다.
