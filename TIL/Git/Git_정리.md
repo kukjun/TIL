@@ -149,16 +149,16 @@ Enter passphrase (empty for no passphrase): // passphrase 입력 10~30 문자
   * Mixed Mode
   * Soft Mode
 
-#### Branch
+### Branch
 
 독립적으로 어떤 작업을 진행하기 위한 형태
 
-* `git branch <branch_name`>
+* `git branch <branch_name>`
 
   브런치를 만들어 따로 작업할 수 있는 공간을 만든다.
 
   ```bash
-  git branch 
+  git branch
   ```
 
   
@@ -166,3 +166,11 @@ Enter passphrase (empty for no passphrase): // passphrase 입력 10~30 문자
 * `git checkout <branch_name>`
 
   브런치를 변경해 다른 브런치 환경에서 작업을 수행한다.
+
+### 원격 레파지토리
+
+* `git remote`
+
+  원격 레파지토리 확인 명령어
+
+* `git remote add 
